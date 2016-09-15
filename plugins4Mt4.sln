@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "http4Mt4", "http4Mt4\http4M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "http4Mt4UnitTest", "http4Mt4UnitTest\http4Mt4UnitTest.csproj", "{ABB05F79-7F43-4B6D-833A-0957CBA6355F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "json4Mt4", "json4Mt4\json4Mt4.csproj", "{AD0A0972-C650-4672-8DD2-FA6DA56A2CC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "json4Mt4UnitTest", "json4Mt4UnitTest\json4Mt4UnitTest.csproj", "{31AB50A8-3A51-47EA-82AE-D99B98078427}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AD0A0972-C650-4672-8DD2-FA6DA56A2CC3} = {AD0A0972-C650-4672-8DD2-FA6DA56A2CC3}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +28,14 @@ Global
 		{ABB05F79-7F43-4B6D-833A-0957CBA6355F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABB05F79-7F43-4B6D-833A-0957CBA6355F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABB05F79-7F43-4B6D-833A-0957CBA6355F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD0A0972-C650-4672-8DD2-FA6DA56A2CC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD0A0972-C650-4672-8DD2-FA6DA56A2CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD0A0972-C650-4672-8DD2-FA6DA56A2CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD0A0972-C650-4672-8DD2-FA6DA56A2CC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31AB50A8-3A51-47EA-82AE-D99B98078427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31AB50A8-3A51-47EA-82AE-D99B98078427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31AB50A8-3A51-47EA-82AE-D99B98078427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31AB50A8-3A51-47EA-82AE-D99B98078427}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
