@@ -15,5 +15,21 @@ namespace Tcp4Mt4UnitTest
             string result = Class1.TcpGet("hello");
             Assert.AreEqual("a", result);
         }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            for (int i = 0; i < 5; i++) {
+                string result = Class1.readClientTcpRequest("11112");
+
+                if (result.StartsWith("request")) {
+                    Class1.writeClientTcpResponse("hello" + i);
+                }
+
+                Console.Write(result);
+            }
+            
+            Assert.AreEqual("a", "a");
+        }
     }
 }
