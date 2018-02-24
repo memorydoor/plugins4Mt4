@@ -31,5 +31,13 @@ namespace Tcp4Mt4UnitTest
             
             Assert.AreEqual("a", "a");
         }
+
+        [TestMethod]
+        public void TestMethod3()
+        {
+            
+            string result = Class1.TcpClose();
+            Assert.AreEqual("a", result);
+        }
     }
 }

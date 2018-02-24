@@ -21,6 +21,7 @@ namespace Tcp4Mt4
              [MarshalAs(UnmanagedType.LPWStr)]string host,
              [MarshalAs(UnmanagedType.LPWStr)]string port)
         {
+
             hostStr = host;
             portStr = port;
             return internalTcpConnect(host, port);
@@ -42,6 +43,31 @@ namespace Tcp4Mt4
             return "";
         }
 
+
+        [DllExport("TcpClose", CallingConvention = CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.LPWStr)]
+        public static string TcpClose()
+        {
+            try
+            {
+                if (stm != null) {
+                    stm.Close();
+                }
+
+                if (tcpclnt != null)
+                {
+                    tcpclnt.Close();
+                }
+
+            }
+            catch (Exception e)
+            {
+                return "ERROR: " + e.Message.ToString();
+            }
+            return "";
+        }
+
+
         public static Stream stm;
 
         [DllExport("TcpGet", CallingConvention = CallingConvention.StdCall)]
@@ -51,13 +77,17 @@ namespace Tcp4Mt4
             string result = "";
             try
             {
+
                 stm = tcpclnt.GetStream();
                 StreamWriter sw = new StreamWriter(stm);
 
-                sw.WriteLine("a");
+                sw.WriteLine(request);
                 sw.Flush();
 
                 result = new StreamReader(stm).ReadLine();
+
+                stm.Close();
+                stm = null;
             }
             catch (Exception e)
             {
@@ -86,7 +116,8 @@ namespace Tcp4Mt4
             String data = "";
             try
             {
-                if (server == null) {
+                if (server == null)
+                {
                     // Set the TcpListener on port 13000.
                     Int32 port = int.Parse(portStr);
                     IPAddress localAddr = IPAddress.Parse("127.0.0.1");
@@ -105,8 +136,9 @@ namespace Tcp4Mt4
                 // Perform a blocking call to accept requests.
                 // You could also user server.AcceptSocket() here.
                 //Socket socket = server.AcceptSocket();
-                if (client == null) {
-                    
+                if (client == null)
+                {
+
                     client = server.AcceptTcpClient();
                     Console.WriteLine("Connected!");
 
@@ -122,7 +154,8 @@ namespace Tcp4Mt4
                     return data;
                 }
 
-                if (client.Connected == false) {
+                if (client.Connected == false)
+                {
                     client.Close();
                 }
 
@@ -130,12 +163,13 @@ namespace Tcp4Mt4
                 Byte[] bytes = new Byte[256];
 
                 // Get a stream object for reading and writing
-                if (stream == null) {
+                if (stream == null)
+                {
                     stream = client.GetStream();
                     sr = new StreamReader(stream);
                 }
 
-                
+
                 //StreamWriter sw = new StreamWriter(ns);
 
                 data = sr.ReadLine();
@@ -143,13 +177,27 @@ namespace Tcp4Mt4
                 data = "request:" + data;
 
             }
-            catch (SocketException e)
+            catch (Exception e)
             {
                 Console.WriteLine("SocketException: {0}", e);
                 data = e.Message;
-                server.Stop();
-            }
 
+                try
+                {
+
+                    server.Stop();
+                    server = null;
+                    client = null;
+                    stream = null;
+                    sr = null;
+                    sw = null;
+                }
+                catch (Exception e1)
+                {
+                    Console.WriteLine("SocketException: {0}", e1);
+                    data = data + " " + e1.Message;
+                }
+            }
             return data;
         }
 
@@ -171,16 +219,57 @@ namespace Tcp4Mt4
                 Console.WriteLine("Sent: {0}", response);
                 data = "Sent:" + response;
             }
-            catch (SocketException e)
+            catch (Exception e)
             {
                 Console.WriteLine("SocketException: {0}", e);
 
                 data = e.Message;
+
+                try
+                {
+                    server.Stop();
+                    server = null;
+                    client = null;
+                    stream = null;
+                    sr = null;
+                    sw = null;
+                }
+                catch (Exception e1)
+                {
+                    Console.WriteLine("SocketException: {0}", e1);
+                    data = data + " " + e1.Message;
+                }
             }
 
             return data;
         }
 
+        [DllExport("stopTcpServer", CallingConvention = CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.LPWStr)]
+        public static string stopTcpServer() {
+            string data = "";
+            try {
+                if (server != null)
+                {
+                    server.Stop();
+                }
+
+                server = null;
+                client = null;
+                stream = null;
+                sr = null;
+                sw = null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("SocketException: {0}", e);
+
+                data = e.Message;
+            }
+            
+
+            return data;
+        }
         /* End: tcp server */
     }
 }
