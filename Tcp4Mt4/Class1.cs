@@ -15,6 +15,8 @@ namespace Tcp4Mt4
         private static string hostStr;
         private static string portStr;
 
+        public static Stream stm;
+
         [DllExport("TcpConnect", CallingConvention = CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.LPWStr)]
         public static string TcpConnect(
@@ -33,6 +35,8 @@ namespace Tcp4Mt4
             {
                 tcpclnt = new TcpClient();
                 tcpclnt.Connect(host, int.Parse(port));
+
+                stm = tcpclnt.GetStream();
             }
             catch (Exception e)
             {
@@ -67,9 +71,6 @@ namespace Tcp4Mt4
             return "";
         }
 
-
-        public static Stream stm;
-
         [DllExport("TcpGet", CallingConvention = CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.LPWStr)]
         public static string TcpGet(
@@ -78,7 +79,6 @@ namespace Tcp4Mt4
             try
             {
 
-                stm = tcpclnt.GetStream();
                 StreamWriter sw = new StreamWriter(stm);
 
                 sw.WriteLine(request);
@@ -86,8 +86,6 @@ namespace Tcp4Mt4
 
                 result = new StreamReader(stm).ReadLine();
 
-                stm.Close();
-                stm = null;
             }
             catch (Exception e)
             {
