@@ -17,14 +17,17 @@ namespace SystemTrayApp
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			// Show the system tray icon.					
-			using (ProcessIcon pi = new ProcessIcon())
-			{
-				pi.Display();
+            // Show the system tray icon.					
+            using (ProcessIcon pi = new ProcessIcon())
+            using (StatusIcon si = new StatusIcon())
 
-				// Make sure the application runs!
-				Application.Run();
-			}
+            {
+                pi.Display();
+                si.Display();
+
+                // Make sure the application runs!
+                Application.Run();
+            }
 		}
-	}
+    }
 }

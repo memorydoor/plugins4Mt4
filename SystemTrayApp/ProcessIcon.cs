@@ -31,8 +31,8 @@ namespace SystemTrayApp
 		{
 			// Put the icon in the system tray and allow it react to mouse clicks.			
 			ni.MouseClick += new MouseEventHandler(ni_MouseClick);
-			ni.Icon = Resources.SystemTrayApp;
-			ni.Text = "System Tray Utility Application Demonstration Program";
+			ni.Icon = Resources.Next;
+			ni.Text = "Process Icon";
 			ni.Visible = true;
 
 			// Attach a context menu.
